@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Slicer : MonoBehaviour
 {
+    [SerializeField] private int _delayToDestroyUpperHull=60;
+    [SerializeField] private int _delayToDestroyLowerHull=60;
     private bool _needSlice;
     
     public void StartSlice()
@@ -18,25 +20,41 @@ public class Slicer : MonoBehaviour
     {
         if (_needSlice && other.TryGetComponent(out ISliceable objectForSlice))
         {
-            SlicedHull slicedObject = SliceObject(other.gameObject, objectForSlice.GetMaterialAfterSlice());
-            if (slicedObject == null)
-                return;
-
-            GameObject upperHull = slicedObject.CreateUpperHull(other.gameObject,objectForSlice.GetMaterialAfterSlice());
-            GameObject lowerHull =
-                slicedObject.CreateLowerHull(other.gameObject, objectForSlice.GetMaterialAfterSlice());
-
-            MakeItPhysical(upperHull);
-            MakeItPhysical(lowerHull);
-            Vector3 position = other.transform.position;
-            upperHull.transform.position =position;
-            lowerHull.transform.position = position;
-
-            objectForSlice.Slice();
-            Destroy(other.gameObject);
+            Slice(other,objectForSlice);
         }
     }
-    
+
+    private void Slice(Collider other,ISliceable objectForSlice)
+    {
+        SlicedHull slicedObject = SliceObject(other.gameObject, objectForSlice.GetMaterialAfterSlice());
+        if (slicedObject == null)
+            return;
+
+        GameObject upperHull = slicedObject.CreateUpperHull(other.gameObject,objectForSlice.GetMaterialAfterSlice());
+        GameObject lowerHull =
+            slicedObject.CreateLowerHull(other.gameObject, objectForSlice.GetMaterialAfterSlice());
+
+        MakeItPhysical(upperHull);
+        MakeItPhysical(lowerHull);
+
+        SetPositionAndScale(upperHull,other.transform);
+        SetPositionAndScale(lowerHull,other.transform);
+            
+        upperHull.AddComponent<DestroyerObject>().InitDelayToDestroy(_delayToDestroyUpperHull);
+        lowerHull.AddComponent<DestroyerObject>().InitDelayToDestroy(_delayToDestroyLowerHull);
+            
+        objectForSlice.Slice();
+        Destroy(other.gameObject);
+    }
+
+    private void SetPositionAndScale(GameObject obj,Transform desiredTransform)
+    {
+        Vector3 position = desiredTransform.position;
+
+        obj.transform.position = position;;
+        
+        obj.transform.localScale =desiredTransform.lossyScale;
+    }
     private void MakeItPhysical(GameObject obj)
     {
         obj.AddComponent<MeshCollider>().convex = true;
