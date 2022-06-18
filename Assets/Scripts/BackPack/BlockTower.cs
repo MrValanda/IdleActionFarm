@@ -14,10 +14,18 @@ public class BlockTower : MonoBehaviour
         newBlock.PositionReached.AddListener(OnPositionReached);
     }
 
+    public void RemoveLastBlock()
+    {
+        _countBlocks = _countBlocks - 1 == 0 ? 1 : _countBlocks - 1;
+        print(_countBlocks);
+        _spawnPoint.position = GetPointBlockByCountBlocks(_countBlocks-1);
+
+    }
+
     private void OnPositionReached(Block block)
     {
         block.SetPosition(_spawnPoint.position);
-        _spawnPoint.position = GetPointNextBlock();
+        _spawnPoint.position = GetPointBlockByCountBlocks(_countBlocks);
         _countBlocks++;
         block.transform.parent = transform;
         block.transform.localRotation = Quaternion.identity;
@@ -26,10 +34,10 @@ public class BlockTower : MonoBehaviour
     }
 
     
-    public Vector3 GetPointNextBlock()
+    public Vector3 GetPointBlockByCountBlocks(int countBlocks)
     {
         return new Vector3(transform.position.x,
-            transform.position.y+_countBlocks * _scaleY,
+            transform.position.y+countBlocks * _scaleY,
             transform.position.z);
     }
     
