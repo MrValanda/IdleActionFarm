@@ -7,6 +7,8 @@ public class BlockBackPack : MonoBehaviour
     [SerializeField] private List<BlockTower> _blockTowers;
     [SerializeField] private BlockDetector _blockDetector;
     [SerializeField] private ReceptionPointDetector _receptionPointDetector;
+    [SerializeField] private PlayerWallet _playerWallet;
+
     
     private Stack<Block> _blocks;
     
@@ -24,6 +26,8 @@ public class BlockBackPack : MonoBehaviour
     private void OnDisable()
     {
         _blockDetector.DetectBlock.RemoveListener(OnBlockDetected);
+        _receptionPointDetector.DetectReceptionPoint.RemoveListener(OnDetectReceptionPoint);
+
     }
     
     private void OnBlockDetected(Block block)
@@ -39,15 +43,7 @@ public class BlockBackPack : MonoBehaviour
         if(block==null) return;
         var blockTower = _blockTowers[_blocks.Count % _blockTowers.Count];
         blockTower.RemoveLastBlock();
-        block.InitMove(receptionPoint.Target);
-        block.transform.parent = null;
-        block.PositionReached.AddListener(OnPositionReached);
+        receptionPoint.InitBlockMove(block.BlockAnimator);
     }
-
-    private void OnPositionReached(Block block)
-    {
-        block.StopAnimate();
-        Destroy(block.gameObject);
-        block.PositionReached.RemoveListener(OnPositionReached);
-    }
+    
 }

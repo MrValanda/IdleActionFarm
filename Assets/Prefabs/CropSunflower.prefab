@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _materialAfterSlice: {fileID: 2100000, guid: 1a09097c5285b8e429efe61ec9d9ed8a, type: 2}
-  _dropBlockTemplate: {fileID: 3585212469914244608, guid: ba79ba234e50a7b4b9079e5e679e6d5b, type: 3}
+  _dropBlockTemplate: {fileID: 7801473846625877642, guid: ba79ba234e50a7b4b9079e5e679e6d5b, type: 3}
   _rotateAngleY: 180
   _animationScaleTime: 1
   _animationRotateTime: 1

@@ -8,10 +8,10 @@ public class BlockTower : MonoBehaviour
 
     public void AddNewBlock(Block newBlock)
     {        
-        _scaleY = newBlock.EndScale.y;
-        newBlock.InitMove(_spawnPoint);
-        newBlock.StartAnimate();
-        newBlock.PositionReached.AddListener(OnPositionReached);
+        _scaleY = newBlock.BlockAnimator.EndScale.y;
+        newBlock.BlockAnimator.InitMove(_spawnPoint);
+        newBlock.BlockAnimator.StartAnimate();
+        newBlock.BlockAnimator.PositionReached.AddListener(OnPositionReached);
     }
 
     public void RemoveLastBlock()
@@ -22,15 +22,15 @@ public class BlockTower : MonoBehaviour
 
     }
 
-    private void OnPositionReached(Block block)
+    private void OnPositionReached(BlockAnimator blockAnimator)
     {
-        block.SetPosition(_spawnPoint.position);
+        blockAnimator.SetPosition(_spawnPoint.position);
         _spawnPoint.position = GetPointBlockByCountBlocks(_countBlocks);
         _countBlocks++;
-        block.transform.parent = transform;
-        block.transform.localRotation = Quaternion.identity;
-        block.StopAnimate();
-        block.PositionReached.RemoveListener(OnPositionReached);
+        blockAnimator.transform.parent = transform;
+        blockAnimator.transform.localRotation = Quaternion.identity;
+        blockAnimator.StopAnimate();
+        blockAnimator.PositionReached.RemoveListener(OnPositionReached);
     }
 
     

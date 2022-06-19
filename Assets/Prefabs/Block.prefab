@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3585212469914244610}
   - component: {fileID: 3585212469914244609}
   - component: {fileID: 3585212469914244608}
+  - component: {fileID: 7801473846625877642}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -108,9 +109,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07b9ea90dbc4a845afe3dfd8d41a1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _easeType: 3
   _spawnAnimateDuration: 0.5
-  _moveAnimateDuration: 2
   PositionReached:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7801473846625877642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3585212469914244615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b20cb92e01e1234caab585e3be30c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _countCoins: 0
+  _coinTemplate: {fileID: 0}
