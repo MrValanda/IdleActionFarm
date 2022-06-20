@@ -3,23 +3,23 @@ using UnityEngine.Events;
 
 public class PlayerWallet : MonoBehaviour
 {
-    public UnityEvent CoinAdd;
-    public UnityEvent<float> CoinsChanged;
-    public UnityEvent CoinRemove;
+    public UnityEvent CoinsAdd;
+    public UnityEvent<float,PlayerWalletEventArgs> CoinsChanged;
+    public UnityEvent CoinsRemove;
     
     private float _currentCountCoins;
 
-    public void AddCoin()
+    public void AddCoins(float coins)
     {
-        _currentCountCoins++;
-        CoinAdd?.Invoke();
-        CoinsChanged?.Invoke(_currentCountCoins);
+        _currentCountCoins+=coins;
+        CoinsAdd?.Invoke();
+        CoinsChanged?.Invoke(coins,new PlayerWalletEventArgs( _currentCountCoins));
     }
 
-    public void RemoveCoin()
+    public void RemoveCoins(float coins)
     {
-        _currentCountCoins--;
-        CoinRemove?.Invoke();
-        CoinsChanged?.Invoke(_currentCountCoins);
+        _currentCountCoins-=coins;
+        CoinsRemove?.Invoke();
+        CoinsChanged?.Invoke(-coins,new PlayerWalletEventArgs( _currentCountCoins));
     }
 }

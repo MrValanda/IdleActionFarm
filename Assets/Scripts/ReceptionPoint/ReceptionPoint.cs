@@ -4,9 +4,9 @@ using UnityEngine;
 public class ReceptionPoint : MonoBehaviour
 {
     [SerializeField] private Transform _target;
-    [SerializeField] private ReceptionPoint _nextReceptionPoint;
+    [SerializeField] protected ReceptionPoint _nextReceptionPoint;
     
-    [SerializeField] private float _delayTakeNextBlock;
+    [SerializeField] private float _delayMoveAnimation;
     [SerializeField] private float _moveAnimationDuration;
     
     [SerializeField] private Ease _easeType; 
@@ -14,7 +14,8 @@ public class ReceptionPoint : MonoBehaviour
     
     public void InitBlockMove(BlockAnimator blockAnimator)
     {
-        blockAnimator.InitMove(_target, _moveAnimationDuration, _easeType, _delayTakeNextBlock, _isUIAnimation);
+        blockAnimator.InitMove(_target, _moveAnimationDuration, _easeType, _delayMoveAnimation, _isUIAnimation);
+        blockAnimator.StartAnimate();
         blockAnimator.transform.parent = null;
         blockAnimator.PositionReached.AddListener(OnPositionReached);
     }
@@ -22,9 +23,19 @@ public class ReceptionPoint : MonoBehaviour
     {
         blockAnimator.StopAnimate();
         if (_nextReceptionPoint == null)
-            Destroy(blockAnimator.gameObject);
+            PositionReachedAndNoReceptionPoint(blockAnimator);
         else
-            _nextReceptionPoint.InitBlockMove(blockAnimator);
+            PositionReachedAndHasReceptionPoint(blockAnimator);
         blockAnimator.PositionReached.RemoveListener(OnPositionReached);
+    }
+
+    protected virtual void PositionReachedAndNoReceptionPoint(BlockAnimator blockAnimator)
+    {
+       Destroy(blockAnimator.gameObject);
+    }
+    protected virtual void PositionReachedAndHasReceptionPoint(BlockAnimator blockAnimator)
+    {
+        _nextReceptionPoint.InitBlockMove(blockAnimator);
+
     }
 }

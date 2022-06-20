@@ -47,18 +47,20 @@ public class Slicer : MonoBehaviour
         Destroy(other.gameObject);
     }
 
-    private void SetPositionAndScale(GameObject obj,Transform desiredTransform)
+    private static void SetPositionAndScale(GameObject obj,Transform desiredTransform)
     {
         Vector3 position = desiredTransform.position;
 
-        obj.transform.position = position;;
+        obj.transform.position = position;
         
         obj.transform.localScale =desiredTransform.lossyScale;
     }
-    private void MakeItPhysical(GameObject obj)
+    private static void MakeItPhysical(GameObject obj)
     {
         obj.AddComponent<MeshCollider>().convex = true;
-        obj.AddComponent<Rigidbody>();
+        var rigidbody = obj.AddComponent<Rigidbody>();
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        
     }
     private SlicedHull SliceObject(GameObject obj, Material crossSectionMaterial = null)
     {

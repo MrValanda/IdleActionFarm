@@ -1,11 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Animator))]
 public class Harvesting : MonoBehaviour
 {
+    
     [SerializeField] private CropDetector _cropDetector;
     [SerializeField] private int _harvestSpeed;
     [SerializeField] private Slicer _slicer;
+
+    public UnityEvent StartHarvest;
+    public UnityEvent StopHarvest;
     
     private Animator _animator;
     private static readonly int HarvestingTriggerId = Animator.StringToHash("NeedHarvesting");
@@ -21,14 +26,28 @@ public class Harvesting : MonoBehaviour
     {
         _animator.SetBool(HarvestingTriggerId, _cropDetector.CropNearby);
     }
+
+    public void StartSlice()
+    {
+        _slicer.StartSlice();
+
+    }
+
+    public void StopSlice()
+    {
+        _slicer.StopSlice();
+
+    }
     
     public void StartHarvesting()
     {
-        _slicer.StartSlice();
+        _slicer.gameObject.SetActive(true);
+        StartHarvest?.Invoke();
     }
     public void StopHarvesting()
     {
-        _slicer.StopSlice();
+        _slicer.gameObject.SetActive(false);
+        StopHarvest?.Invoke();
 
     }
 

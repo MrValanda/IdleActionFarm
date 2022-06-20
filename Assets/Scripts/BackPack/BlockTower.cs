@@ -1,15 +1,22 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class BlockTower : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoint;
+    
+    [SerializeField] private float _delayMoveAnimation;
+    [SerializeField] private float _moveAnimationDuration;
+    
+    [SerializeField] private Ease _easeType; 
+    [SerializeField] private bool _isUIAnimation;
     private int _countBlocks=1;
     private float _scaleY;
 
     public void AddNewBlock(Block newBlock)
     {        
         _scaleY = newBlock.BlockAnimator.EndScale.y;
-        newBlock.BlockAnimator.InitMove(_spawnPoint);
+        newBlock.BlockAnimator.InitMove(_spawnPoint, _moveAnimationDuration, _easeType, _delayMoveAnimation, _isUIAnimation);;
         newBlock.BlockAnimator.StartAnimate();
         newBlock.BlockAnimator.PositionReached.AddListener(OnPositionReached);
     }
@@ -17,7 +24,6 @@ public class BlockTower : MonoBehaviour
     public void RemoveLastBlock()
     {
         _countBlocks = _countBlocks - 1 == 0 ? 1 : _countBlocks - 1;
-        print(_countBlocks);
         _spawnPoint.position = GetPointBlockByCountBlocks(_countBlocks-1);
 
     }
@@ -36,9 +42,7 @@ public class BlockTower : MonoBehaviour
     
     public Vector3 GetPointBlockByCountBlocks(int countBlocks)
     {
-        return new Vector3(transform.position.x,
-            transform.position.y+countBlocks * _scaleY,
-            transform.position.z);
+        return transform.position + transform.up.normalized *(countBlocks * _scaleY);
     }
     
 }

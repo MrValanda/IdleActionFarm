@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class DestroyerObject : MonoBehaviour
 
     private void Start()
     {
-        transform.DOScale(Vector3.zero, _delayToDestroy);
+        transform.DOScale(Vector3.one * 0.1f, _delayToDestroy);
     }
 
     public void InitDelayToDestroy(int delayToDestroy)

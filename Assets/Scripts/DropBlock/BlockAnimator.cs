@@ -30,11 +30,12 @@ public class BlockAnimator : MonoBehaviour
     {
         _isUIAnimation = isUIAnimation;
         _doMove?.Kill();
+        _collider.enabled = false;
         _moveAnimationTime = moveAnimationDuration;
         _target = target;
-        _collider.enabled = false;
         _doMove = transform.DOLocalMove(GetTargetPoint(), moveAnimationDuration).SetAutoKill(false);
-        _doMove.OnComplete(() => PositionReached?.Invoke(this));
+        _doMove.OnComplete(() =>PositionReached?.Invoke(this));
+        _doMove.OnUpdate(() => _moveAnimationTime -= Time.deltaTime);
         _doMove.SetEase(easeType);
         _doMove.SetDelay(_delay);
     }
@@ -42,7 +43,7 @@ public class BlockAnimator : MonoBehaviour
     private void Update()
     {
         if (_needAnimate==false ) return;
-        _moveAnimationTime -= Time.deltaTime;
+       
         _doMove.ChangeValues(transform.position, GetTargetPoint(), _moveAnimationTime);
     }
     
@@ -54,6 +55,10 @@ public class BlockAnimator : MonoBehaviour
 
     }
 
+    public void EnableCollision()
+    {
+        _collider.enabled = true;
+    }
     public void StartAnimate()
     {
         _needAnimate = true;
@@ -72,8 +77,13 @@ public class BlockAnimator : MonoBehaviour
     private void PlaySpawnAnimate()
     {
         EndScale = transform.localScale;
-        _collider.enabled = false;
         transform.localScale = Vector3.zero;
-        transform.DOScale(EndScale, _spawnAnimateDuration).OnComplete(() => _collider.enabled = true);
+        _collider.enabled = false;
+        transform.DOScale(EndScale, _spawnAnimateDuration).OnComplete(EnableCollision);
+    }
+
+    private void OnDestroy()
+    {
+        _doMove?.Kill();
     }
 }
