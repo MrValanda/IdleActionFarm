@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using TMPro;
 
@@ -7,6 +8,7 @@ public class CoinView : MonoBehaviour
     [SerializeField] private PlayerWallet _playerWallet;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private bool _needAnimate;
+    [SerializeField] private float _shakeStrength;
 
     private float _changedValue;
     private float _coins;
@@ -26,6 +28,7 @@ public class CoinView : MonoBehaviour
     {
         _currentCoins = arg.CurrentCoins;
         _changedValue = _needAnimate ? 1 : changedValue;
+        transform.DOShakePosition(1,_shakeStrength);
     }
 
     private IEnumerator CoinsAddAnimation()
@@ -33,6 +36,7 @@ public class CoinView : MonoBehaviour
         while (true)
         {
             _text.text = _coins.ToString();
+          
             _coins = Mathf.MoveTowards(_coins, _currentCoins, _changedValue);
             yield return null;
         }

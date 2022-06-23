@@ -4341,7 +4341,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.3220173, y: 0.000000023037346, z: -0.000000007835809, w: 0.9467338}
+  m_LocalRotation: {x: 0.3220173, y: -0.000000023037346, z: 0.000000007835809, w: 0.9467338}
   m_LocalPosition: {x: -4.2272587, y: 19.6, z: -9.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4658,7 +4658,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015600207}
-  m_LocalRotation: {x: 0.3220173, y: 0.000000023037346, z: -0.000000007835809, w: 0.9467338}
+  m_LocalRotation: {x: 0.3220173, y: -0.000000023037346, z: 0.000000007835809, w: 0.9467338}
   m_LocalPosition: {x: -4.2272587, y: 19.6, z: -9.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7437,6 +7437,7 @@ MonoBehaviour:
   _playerWallet: {fileID: 733698113}
   _text: {fileID: 1796511025}
   _needAnimate: 0
+  _shakeStrength: 2
 --- !u!4 &1547250559 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2, type: 3}
