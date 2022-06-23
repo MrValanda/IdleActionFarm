@@ -1401,8 +1401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a2ea40b11c1be4d9c0cb34081232aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayToDestroyUpperHull: 10
-  _delayToDestroyLowerHull: 10
+  _delayToDestroyUpperHull: 30
+  _delayToDestroyLowerHull: 30
 --- !u!65 &2736068897187806152
 BoxCollider:
   m_ObjectHideFlags: 0

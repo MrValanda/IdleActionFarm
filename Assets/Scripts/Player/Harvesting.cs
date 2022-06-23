@@ -30,7 +30,6 @@ public class Harvesting : MonoBehaviour
     public void StartSlice()
     {
         _slicer.StartSlice();
-
     }
 
     public void StopSlice()

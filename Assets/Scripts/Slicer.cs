@@ -6,6 +6,7 @@ public class Slicer : MonoBehaviour
     [SerializeField] private int _delayToDestroyUpperHull=60;
     [SerializeField] private int _delayToDestroyLowerHull=60;
     private bool _needSlice;
+    private bool _needVibrate=true;
     
     public void StartSlice()
     {
@@ -21,6 +22,8 @@ public class Slicer : MonoBehaviour
         if (_needSlice && other.TryGetComponent(out ISliceable objectForSlice))
         {
             Slice(other,objectForSlice);
+            if (_needVibrate)
+                Handheld.Vibrate();
         }
     }
 

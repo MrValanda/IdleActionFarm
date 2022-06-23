@@ -6,7 +6,9 @@ public class CoinView : MonoBehaviour
 {
     [SerializeField] private PlayerWallet _playerWallet;
     [SerializeField] private TMP_Text _text;
+    [SerializeField] private bool _needAnimate;
 
+    private float _changedValue;
     private float _coins;
     private float _currentCoins;
     private Coroutine _coinsAddAnimationCoroutine;
@@ -23,6 +25,7 @@ public class CoinView : MonoBehaviour
     private void OnCoinsChanged(float changedValue, PlayerWalletEventArgs arg)
     {
         _currentCoins = arg.CurrentCoins;
+        _changedValue = _needAnimate ? 1 : changedValue;
     }
 
     private IEnumerator CoinsAddAnimation()
@@ -30,7 +33,7 @@ public class CoinView : MonoBehaviour
         while (true)
         {
             _text.text = _coins.ToString();
-            _coins = Mathf.MoveTowards(_coins, _currentCoins, 1);
+            _coins = Mathf.MoveTowards(_coins, _currentCoins, _changedValue);
             yield return null;
         }
        

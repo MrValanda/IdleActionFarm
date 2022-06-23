@@ -125,6 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b20cb92e01e1234caab585e3be30c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countCoins: 2
-  _cost: 10
+  _countCoins: 1
+  _cost: 15
   _coinTemplate: {fileID: -3363044460513870530, guid: dae3c0652c32f4048a747cbdd6178e16, type: 3}
