@@ -4,28 +4,28 @@ using UnityEngine.Events;
 [RequireComponent(typeof(SphereCollider))]
 public class CropDetector : Detector
 {
-    public UnityEvent<Crop> DetectCrop;
-    public bool CropNearby { get; private set; }
-
-    private void FixedUpdate()
-    {
-        CropNearby = false;
-    }
-
+    public UnityEvent<Crop> DetectedCrop;
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Crop crop))
-        {
-            DetectCrop?.Invoke(crop);
-        }
+        EvaluateCollision(other);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out Crop _))
+        EvaluateCollision(other);
+    }
+
+    private void EvaluateCollision(Collider collision)
+    {
+        if (collision.TryGetComponent(out Crop crop))
         {
-            CropNearby = true;
+            DetectCrop(crop);
         }
     }
-    
+
+    private void DetectCrop(Crop crop)
+    {
+        DetectedCrop?.Invoke(crop);
+    }
 }

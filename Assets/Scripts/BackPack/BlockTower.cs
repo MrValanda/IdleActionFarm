@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BlockTower : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem _blockPositionReached;
     [SerializeField] private Transform _spawnPoint;
     
     [SerializeField] private float _delayMoveAnimation;
@@ -10,22 +11,27 @@ public class BlockTower : MonoBehaviour
     
     [SerializeField] private Ease _easeType; 
     [SerializeField] private bool _isUIAnimation;
+    
     private int _countBlocks=1;
     private float _scaleY;
 
     public void AddNewBlock(Block newBlock)
     {        
         _scaleY = newBlock.BlockAnimator.EndScale.y;
-        newBlock.BlockAnimator.InitMove(_spawnPoint, _moveAnimationDuration, _easeType, _delayMoveAnimation, _isUIAnimation);;
+        newBlock.BlockAnimator.InitMove(_spawnPoint, _moveAnimationDuration, _easeType, _delayMoveAnimation, _isUIAnimation);
         newBlock.BlockAnimator.StartAnimate();
         newBlock.BlockAnimator.PositionReached.AddListener(OnPositionReached);
     }
 
-    public void RemoveLastBlock()
+    public void ReduceBlocks(int count)
     {
-        _countBlocks = _countBlocks - 1 == 0 ? 1 : _countBlocks - 1;
-        _spawnPoint.position = GetPointBlockByCountBlocks(_countBlocks-1);
-
+        count = Mathf.Max(count, 0);
+        _countBlocks -= count;
+        AlignSpawnPointPosition();
+    }
+    public void AlignSpawnPointPosition()
+    {
+        _spawnPoint.position = GetPointBlockByCountBlocks(_countBlocks >0 ? _countBlocks-1 : _countBlocks);
     }
 
     private void OnPositionReached(BlockAnimator blockAnimator)
@@ -37,12 +43,12 @@ public class BlockTower : MonoBehaviour
         blockAnimator.transform.localRotation = Quaternion.identity;
         blockAnimator.StopAnimate();
         blockAnimator.PositionReached.RemoveListener(OnPositionReached);
+        Instantiate(_blockPositionReached, blockAnimator.transform.position, Quaternion.identity,
+            blockAnimator.transform);
     }
 
-    
-    public Vector3 GetPointBlockByCountBlocks(int countBlocks)
+    private Vector3 GetPointBlockByCountBlocks(int countBlocks)
     {
         return transform.position + transform.up.normalized *(countBlocks * _scaleY);
     }
-    
 }

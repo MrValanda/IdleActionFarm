@@ -5,6 +5,7 @@ public class Slicer : MonoBehaviour
 {
     [SerializeField] private int _delayToDestroyUpperHull=60;
     [SerializeField] private int _delayToDestroyLowerHull=60;
+    [SerializeField] private ParticleSystem _sliceParticle;
     private bool _needSlice;
     private bool _needVibrate=true;
     
@@ -21,7 +22,10 @@ public class Slicer : MonoBehaviour
     {
         if (_needSlice && other.TryGetComponent(out ISliceable objectForSlice))
         {
+            var closestPoint = other.ClosestPoint(transform.position);
+            Instantiate(_sliceParticle, closestPoint, Quaternion.identity);
             Slice(other,objectForSlice);
+            
             if (_needVibrate)
                 Handheld.Vibrate();
         }
@@ -69,5 +73,4 @@ public class Slicer : MonoBehaviour
     {
         return obj.Slice(transform.position, transform.forward, crossSectionMaterial);
     }
-   
 }

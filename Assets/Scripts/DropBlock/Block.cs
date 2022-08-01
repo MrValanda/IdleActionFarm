@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(BlockAnimator))]
 public class Block : MonoBehaviour
@@ -34,5 +33,4 @@ public class Block : MonoBehaviour
 
         return coins;
     }
-  
 }
